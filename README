@@ -1,0 +1,111 @@
+----------
+MEMSScan
+----------
+MEMSScan is based on both MEMSGauge and MEMSrosco
+
+MEMSGauge:
+http://github.com/colinbourassa/memsgauge/releases/latest
+
+MEMSrosco:
+https://github.com/LeopoldG
+
+MEMSScan:
+https://github.com/haro78/MEMS-Scan
+
+Discussion group:
+https://groups.google.com/forum/#!forum/mems-diagnostics
+
+MEMSScan is a graphical display and diagnostic tool that reads runtime data
+from the ECU in the Rover Modular Engine Management System (MEMS). Currently,
+only MEMS 1.6 is supported.
+
+MEMSScan depends on librosco, a library file to communicate with MEMS.
+Note: MEMSrosco and MEMSScan both use a specific modified version of librosco!
+
+Each of these two projects has its own GitHub repository:
+https://github.com/colinbourassa/memsgauge
+https://github.com/colinbourassa/librosco
+
+-------
+License
+-------
+MEMSScan is licensed under the GPL v3. See the file "LICENSE" for details.
+
+----------
+Disclaimer
+----------
+While this software has been shown to be reliable and is provided in good
+faith, it is provided with ABSOLUTELY NO WARRANTY.
+
+----------------------
+Installing and running
+----------------------
+If you're running Windows, the simplest way to get started is to download the
+Win32 binary archive. Most people will probably want to do this. The archive
+contains the MEMSScan executable, Qt libraries, and librosco library, all of
+which are required to run.
+
+If you're running Linux, you can get a Debian package (.DEB) for your system's
+architecture.
+
+It's also possible to build MEMSScan from the code yourself. This can be done
+with Linux or Windows. In either case, you'll need CMake (version 2.8.11 or
+newer) as well as version 5.x of the Qt SDK.
+
+------------------
+Usage and features
+------------------
+For MEMSScan to do anything useful, the computer on which it's running must
+be connected to the serial port in the MEMS wiring harness. This requires
+building a custom cable using one of FTDI's USB-to-RS232 converters. You can
+find the details of this on either of these two pages:
+
+http://alum.wpi.edu/~colinb/mems_interface.html
+https://github.com/colinbourassa/librosco/blob/wiki/HardwareInterface.md
+
+When the USB FTDI device is connected to the PC, its driver will present it
+as a COM port if using Windows, or a /dev node if using Linux. Enter the name
+of the device (such as "COM3") in the "Serial device name" field of the
+"Edit settings" dialog, under the "Options" menu. (The software will attempt to
+populate the list of serial devices automatically, so that you can simply
+select it from the drop-down box.)
+
+Once the device name is set and the MEMS ECU is on, use the "Connect" button
+in the upper left of the main window to open the serial port and begin reading
+data. The "Communications" lights in the upper right will show the status:
+green if everything is working and MEMS is responding to read requests, or red
+if there's a problem.
+
+To access the online help about the data displayed by MEMSGauge, open the
+"Help" menu and select "Contents..."
+
+---
+FAQ
+---
+Q: Is this an alternative to OBD-II code readers or OBD-II diagnostic software?
+
+A: No. The MEMS 1.6 system doesn't conform to the OBD-II standard. This software
+uses a library specifically to communicate with MEMS.
+
+
+Q: Can this software be used to modify the code or data in the ECU (such as the
+fuel maps)?
+
+A: Yes, you can make adjustment for fuel trim, hot idle/idle delay, idle speed and
+ignition advance. Note that if there is a valid O2 sensor signal, the fuel trim and
+hot idle/idle delay will be automatically adjusted by the ECU, so adjustments are just
+temporary untill MEMS has relearnt its own "optimal" setting.
+WARNING: FUEL TRIM AND IGNITION ADVANCE ADJUSTMENTS CAN CAUSE SIGNIFICANT ENGINE DAMAGE,
+ANY ADJUSTMENTS ARE ON YOUR OWN RISK!
+
+-------------------------------------------
+Notes on building from source under Windows
+-------------------------------------------
+If building from source in a Windows environment, note that the default
+installation of Qt includes a dependency on the ICU internationalization
+libraries. The Win32 build of MEMSGauge that I provide was linked against
+a customized build of Qt and does not have these dependencies. If you'd like to
+build Qt in a similar way, configure the Qt source tree with this command:
+
+configure.bat -release -opensource -no-icu -no-opengl -nomake examples -nomake tests
+
